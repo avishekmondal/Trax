@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="80dp"
+            android:gravity="center"
+            android:background="#222E68"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/logo"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:background="#CD2D1D"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:text="OTP Verification"
+                android:textSize="22sp"
+                android:textStyle="normal"
+                android:textColor="#FFDDD5"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    app:hintTextAppearance="@style/FloatingTextInputLayout">
+
+                    <EditText
+                        android:id="@+id/etOTP"
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center|left"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:hint="Enter 123 as OTP Number"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:singleLine="true"
+                        android:textSize="18sp"
+                        android:textStyle="normal"
+                        android:textColorHint="#747474"
+                        android:textColor="#222E68"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <com.andexert.library.RippleView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:gravity="center_horizontal"
+                ripple:rv_type="rectangle"
+                ripple:rv_zoom="false">
+
+                <!--<Button
+                    android:id="@+id/btnSubmitOTP"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/button_shape"
+                    android:gravity="center"
+                    android:text="SUBMIT"
+                    android:textSize="20sp"
+                    android:textStyle="normal"
+                    android:textColor="#FFFFFF" />-->
+
+                <com.dd.processbutton.iml.ActionProcessButton
+                    android:id="@+id/btnSubmitOTP"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="SUBMIT"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textAllCaps="false"
+                    custom:pb_colorComplete="#222E68"
+                    custom:pb_colorNormal="#222E68"
+                    custom:pb_colorPressed="#CD2D1D"
+                    custom:pb_colorProgress="#222E68"
+                    custom:pb_textProgress="Please Wait..." />
+
+            </com.andexert.library.RippleView>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="40dp"
+                android:gravity="center_horizontal"
+                android:background="#f1f1f2"
+                android:orientation="vertical"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="#FFFFFF"
+                    android:text="OTP not received yet ?"
+                    android:textSize="16sp"
+                    android:textStyle="normal"
+                    android:textColor="#212121"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:background="#CB2D22"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="1dp"
+                    android:background="#FFFFFF"
+                    android:layout_centerInParent="true"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:paddingLeft="5dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/resent_otp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="RESEND OTP"
+                        android:textSize="16sp"
+                        android:textStyle="normal"
+                        android:textColor="#CB2D22"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

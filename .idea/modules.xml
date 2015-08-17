@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/libraries/Metirial_Progressbar/Metirial_Progressbar.iml" filepath="$PROJECT_DIR$/libraries/Metirial_Progressbar/Metirial_Progressbar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/PagerSlidingTabStrip/PagerSlidingTabStrip.iml" filepath="$PROJECT_DIR$/libraries/PagerSlidingTabStrip/PagerSlidingTabStrip.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/ParallaxScroll/ParallaxScroll.iml" filepath="$PROJECT_DIR$/libraries/ParallaxScroll/ParallaxScroll.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/ProcessButton/ProcessButton.iml" filepath="$PROJECT_DIR$/libraries/ProcessButton/ProcessButton.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Trax.iml" filepath="$PROJECT_DIR$/Trax.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/libraries.iml" filepath="$PROJECT_DIR$/libraries/libraries.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/SweetAlertDialog/sweetAlertDialog.iml" filepath="$PROJECT_DIR$/libraries/SweetAlertDialog/sweetAlertDialog.iml" />
+    </modules>
+  </component>
+</project>
+

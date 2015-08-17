@@ -1,0 +1,6 @@
+include ':app'
+include ':libraries:PagerSlidingTabStrip'
+include ':libraries:ParallaxScroll'
+include ':libraries:Metirial_Progressbar'
+include ':libraries:ProcessButton'
+include ':libraries:sweetAlertDialog'
