@@ -1061,6 +1061,8 @@ public class IntransitFragment extends Fragment implements BackgroundTaskInterfa
 
     private void updateShipmentStatus(String updateStatusAction, String capturedData){
 
+        _GpsTrackerSecond = new GPSTrackerSecond(getActivity());
+
         if (_connectionCheck.isNetworkAvailable()) {
 
             String url = Constant.baseUrl  + "updateshipmentstatus";
@@ -1239,6 +1241,7 @@ public class IntransitFragment extends Fragment implements BackgroundTaskInterfa
 
                             db.open();
                             db.updateRecord(intransitList.get(0).getShipmentId(), "pending");
+                            db.updateStatus(intransitList.get(0).getShipmentId());
                             db.close();
                             getintransitListFromDB();
 

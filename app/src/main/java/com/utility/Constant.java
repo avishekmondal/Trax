@@ -8,7 +8,9 @@ import java.util.ArrayList;
  */
 public class Constant{
 
-    public static final String baseUrl = "http://traxnew.bluehorse.in/index.php/api/v1/agents/";
+    public static final String baseUrl = "http://traxeservices.co.in/api/v1/agents/";
+
+    public static final String GOOGLE_PROJECT_ID = "867049677390";
 
     public static final String JSON_REJECTED_REASON_FILE_NAME = "reason.json";
 

@@ -20,7 +20,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.logging.Handler;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 

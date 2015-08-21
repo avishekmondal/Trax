@@ -225,6 +225,16 @@ public class DBAdapter {
 
     }
 
+    public int updateStatus(String shipmentId) {
+
+        ContentValues initialValues = new ContentValues();
+
+        initialValues.put(KEY_ShipmentStatus, "703");
+
+        return db.update(DATABASE_TABLE, initialValues, KEY_ShipmentId + "='" + shipmentId + "'", null);
+
+    }
+
     // ---deletes all record---
     public boolean deleteAllRecord() {
 

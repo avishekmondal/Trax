@@ -63,6 +63,15 @@ public class Pref {
         return spref.getString("mobile", "");
     }
 
+    public void saveGCMRegId(String reg_id) {
+        _editorSpref.putString("reg_id", reg_id);
+        _editorSpref.commit();
+    }
+
+    public String getGCMRegId() {
+        return spref.getString("reg_id", "");
+    }
+
     public void saveAgentId(String id) {
         _editorSpref.putString("id", id);
         _editorSpref.commit();

@@ -408,6 +408,8 @@ public class DashBoardFragment extends Fragment implements BackgroundTaskInterfa
 
     private void getStarted(){
 
+        _GpsTrackerSecond = new GPSTrackerSecond(getActivity());
+
         if (_connectionCheck.isNetworkAvailable()) {
 
             String url = Constant.baseUrl  + "updateshipmentstatus";
@@ -461,6 +463,8 @@ public class DashBoardFragment extends Fragment implements BackgroundTaskInterfa
     }
 
     private void getStopped(){
+
+        _GpsTrackerSecond = new GPSTrackerSecond(getActivity());
 
         if (_connectionCheck.isNetworkAvailable()) {
 
