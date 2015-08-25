@@ -147,7 +147,7 @@ public class TraxService extends Service implements BackgroundTaskInterface{
         if(service == true) {
 
 
-            locationManager.requestLocationUpdates(provider, 60 * 1000, 0, locationListener); //PARAMETER: providername, interval time in milisecond, distance, location listener.
+            locationManager.requestLocationUpdates(provider, 20 * 1000, 0, locationListener); //PARAMETER: providername, interval time in milisecond, distance, location listener.
 
         }
         else{

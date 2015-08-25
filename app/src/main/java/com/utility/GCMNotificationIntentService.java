@@ -76,6 +76,7 @@ public class GCMNotificationIntentService extends IntentService {
                 .getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent in = new Intent(this, HomeActivity.class);
+        in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         in.putExtra("Notification", msg);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 in, 0);

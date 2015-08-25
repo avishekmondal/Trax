@@ -26,6 +26,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.interfaces.BackgroundTaskInterface;
@@ -194,16 +196,17 @@ public class PendingDetailsActivity extends ActionBarActivity implements Backgro
                 double lat = Double.parseDouble(pendingList.get(position).getPickupLatValue());
                 double lng = Double.parseDouble(pendingList.get(position).getPickupLongValue());
 
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng) , 11));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng) , 8));
                 googleMap.addMarker(new MarkerOptions()
                         .icon(BitmapDescriptorFactory
                                 .defaultMarker(BitmapDescriptorFactory.HUE_RED))
                         .position(new LatLng(lat, lng)));
 
+
             }
             else{
 
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(_GpsTrackerSecond.getLatitude(), _GpsTrackerSecond.getLongitude()) , 10));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(_GpsTrackerSecond.getLatitude(), _GpsTrackerSecond.getLongitude()) , 8));
             }
 
         }
@@ -223,16 +226,17 @@ public class PendingDetailsActivity extends ActionBarActivity implements Backgro
                 double lat = Double.parseDouble(pendingList.get(position).getDeliveryLatValue());
                 double lng = Double.parseDouble(pendingList.get(position).getDeliveryLongValue());
 
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng) , 11));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng) , 8));
                 googleMap.addMarker(new MarkerOptions()
                         .icon(BitmapDescriptorFactory
                                 .defaultMarker(BitmapDescriptorFactory.HUE_RED))
                         .position(new LatLng(lat, lng)));
 
+
             }
             else{
 
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(_GpsTrackerSecond.getLatitude(), _GpsTrackerSecond.getLongitude()) , 10));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(_GpsTrackerSecond.getLatitude(), _GpsTrackerSecond.getLongitude()) , 8));
             }
 
         }
