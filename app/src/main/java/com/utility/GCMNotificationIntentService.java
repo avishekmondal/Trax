@@ -24,14 +24,19 @@ public class GCMNotificationIntentService extends IntentService {
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
 
+    public static final String TAG = "GCMIntentService";
+
+    private Pref _pref;
+
     public GCMNotificationIntentService() {
         super("GCMNotificationIntentService");
     }
 
-    public static final String TAG = "GCMIntentService";
-
     @Override
     protected void onHandleIntent(Intent intent) {
+
+        _pref = new Pref(GCMNotificationIntentService.this);
+
         Bundle extras = intent.getExtras();
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
 
@@ -39,6 +44,7 @@ public class GCMNotificationIntentService extends IntentService {
         Log.e("test recieve", "------------------------------ Catch");
 
         if (!extras.isEmpty()) {
+            Log.i(TAG, "Received: " + extras.toString());
             if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR
                     .equals(messageType)) {
                 sendNotification("Send error: " + extras.toString());
@@ -60,11 +66,12 @@ public class GCMNotificationIntentService extends IntentService {
 
                 }
 
-                if(!extras.get("message").equals("")){
-                    sendNotification(""+extras.get("message"));
+                if(extras.containsKey("message")){
+                    if(!extras.get("message").equals("") && _pref.getLoginFlag().equals("3")){
+                        sendNotification(""+extras.get("message"));
+                    }
                 }
 
-                Log.i(TAG, "Received: " + extras.toString());
             }
         }
         GcmBroadcastReceiver.completeWakefulIntent(intent);

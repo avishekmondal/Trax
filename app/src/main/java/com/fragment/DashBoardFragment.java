@@ -757,6 +757,10 @@ public class DashBoardFragment extends Fragment implements BackgroundTaskInterfa
                         tvOnline.setText("GO ONLINE");
                         llGoOfflineMain.setVisibility(View.GONE);
 
+                        getActivity().stopService(new Intent(getActivity(), TraxService.class));
+                        //getActivity().stopService(new Intent(getActivity(), TraxUpdateShipmentService.class));
+                        getActivity().stopService(new Intent(getActivity(), TraxRejectReasonService.class));
+
                     } else {
 
                         new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)

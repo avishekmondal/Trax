@@ -1,10 +1,12 @@
 package com.trax;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -12,7 +14,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.asynctask.RunBackgroundAsync;
 import com.fragment.DashBoardFragment;
+import com.interfaces.BackgroundTaskInterface;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -20,10 +25,18 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.utility.CircularImageView;
+import com.utility.ConnectionCheck;
+import com.utility.Constant;
 import com.utility.DBAdapter;
+import com.utility.GPSTrackerSecond;
 import com.utility.Pref;
 
-public class HomeActivity extends SlidingFragmentActivity{
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+public class HomeActivity extends SlidingFragmentActivity implements BackgroundTaskInterface{
 
 	private SlidingMenu slidingMenu;
 	private ImageView toggleMenu;
@@ -34,7 +47,10 @@ public class HomeActivity extends SlidingFragmentActivity{
 
     private ImageLoader imageLoader;
     private Pref _pref;
+    private ConnectionCheck _connectionCheck;
     private DBAdapter db;
+
+    private ProgressDialog pDialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -82,6 +98,7 @@ public class HomeActivity extends SlidingFragmentActivity{
 		// TODO Auto-generated method stub
 
         _pref = new Pref(HomeActivity.this);
+        _connectionCheck = new ConnectionCheck(HomeActivity.this);
         db = new DBAdapter(HomeActivity.this);
         imageLoader = ImageLoader.getInstance();
         imageLoader.init(ImageLoaderConfiguration.createDefault(this));
@@ -133,21 +150,21 @@ public class HomeActivity extends SlidingFragmentActivity{
             @Override
             public void onClick(View v) {
 
-                _pref.saveLoginFlag("0");
+                slidingMenu.toggle();
 
-                db.open();
-                db.deleteAllRecord();
-                db.close();
+                if(_pref.getLoginFlag().equals("3")){
 
-                stopService(new Intent(HomeActivity.this, TraxService.class));
-                stopService(new Intent(HomeActivity.this, TraxUpdateShipmentService.class));
-                stopService(new Intent(HomeActivity.this, TraxRejectReasonService.class));
+                    new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Oops...")
+                            .setContentText("You have to Go Offline first!!")
+                            .show();
 
-                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                finish();
+                }
+                else{
+
+                    getLoggedOut();
+
+                }
 
             }
         });
@@ -163,5 +180,111 @@ public class HomeActivity extends SlidingFragmentActivity{
 		trans.addToBackStack(null);
 		trans.commit();
 	}
+
+    private void getLoggedOut(){
+
+        if (_connectionCheck.isNetworkAvailable()) {
+
+            String url = Constant.baseUrl  + "logout";
+
+            try {
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("agentId", _pref.getAgentId());
+                jsonObject.put("accessToken", _pref.getAccessToken());
+
+                JSONObject data = new JSONObject();
+                data.put("data", jsonObject);
+
+                String jsonInput = data.toString();
+                Log.v("jsonInput", jsonInput);
+
+                RunBackgroundAsync async = new RunBackgroundAsync(
+                        HomeActivity.this);
+                async.taskInterface = HomeActivity.this;
+                async.execute(url, jsonInput);
+
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+
+        } else {
+
+            _connectionCheck.getNetworkActiveAlert().show();
+        }
+
+    }
+
+    @Override
+    public void onStarted() {
+
+        pDialog = new ProgressDialog(HomeActivity.this);
+        pDialog.setMessage("Please Wait...");
+        pDialog.setCancelable(false);
+        pDialog.setCanceledOnTouchOutside(false);
+        pDialog.show();
+
+    }
+
+    @Override
+    public void onCompleted(String jsonStr) {
+
+        if (pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
+
+        if (jsonStr != null) {
+
+            try {
+
+                JSONObject jsonObj = new JSONObject(jsonStr);
+                JSONObject errNodeObj = jsonObj.getJSONObject("errNode");
+                String errCode = errNodeObj.getString("errCode");
+                String errMsg = errNodeObj.getString("errMsg");
+
+                if (errCode.equalsIgnoreCase("0")) {
+
+                    _pref.saveLoginFlag("0");
+
+                    db.open();
+                    db.deleteAllRecord();
+                    db.close();
+
+                    //stopService(new Intent(HomeActivity.this, TraxService.class));
+                    //stopService(new Intent(HomeActivity.this, TraxUpdateShipmentService.class));
+                    //stopService(new Intent(HomeActivity.this, TraxRejectReasonService.class));
+
+                    Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                    finish();
+
+
+                } else {
+
+                    new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Oops...")
+                            .setContentText(errMsg)
+                            .show();
+
+                }
+
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } else {
+
+            new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("Oops...")
+                    .setContentText("Something going wrong!! Please Try Again")
+                    .show();
+
+        }
+
+    }
 
 }
