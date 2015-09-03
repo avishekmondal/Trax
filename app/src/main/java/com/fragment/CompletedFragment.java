@@ -16,6 +16,7 @@ import com.interfaces.BackgroundTaskInterface;
 import com.trax.CompletedDetailsActivity;
 import com.trax.PendingDetailsActivity;
 import com.trax.R;
+import com.trax.TraxRejectReasonService;
 import com.utility.Constant;
 import com.utility.ConnectionCheck;
 import com.utility.DBAdapter;
@@ -97,15 +98,6 @@ public class CompletedFragment  extends Fragment implements SwipeRefreshLayout.O
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(CompletedFragment.this);
 
-        pendingList = new ArrayList<ShipmentItem>();
-        intransitList = new ArrayList<ShipmentItem>();
-        completedList = new ArrayList<ShipmentItem>();
-        rejectedList = new ArrayList<ShipmentItem>();
-
-        Constant.pendingList = new ArrayList<ShipmentItem>();
-        Constant.intransitList = new ArrayList<ShipmentItem>();
-        Constant.completedList = new ArrayList<ShipmentItem>();
-        Constant.rejectedList = new ArrayList<ShipmentItem>();
 
     }
 
@@ -127,6 +119,16 @@ public class CompletedFragment  extends Fragment implements SwipeRefreshLayout.O
     }
 
     private void getShipmentListFromDB(){
+
+        pendingList = new ArrayList<ShipmentItem>();
+        intransitList = new ArrayList<ShipmentItem>();
+        completedList = new ArrayList<ShipmentItem>();
+        rejectedList = new ArrayList<ShipmentItem>();
+
+        Constant.pendingList = new ArrayList<ShipmentItem>();
+        Constant.intransitList = new ArrayList<ShipmentItem>();
+        Constant.completedList = new ArrayList<ShipmentItem>();
+        Constant.rejectedList = new ArrayList<ShipmentItem>();
 
         db.open();
 
@@ -164,6 +166,8 @@ public class CompletedFragment  extends Fragment implements SwipeRefreshLayout.O
         db.open();
         db.deleteAllRecord();
         db.close();
+
+        getActivity().startService(new Intent(getActivity(), TraxRejectReasonService.class));
 
         if (_connectionCheck.isNetworkAvailable()) {
 

@@ -18,6 +18,7 @@ import com.asynctask.RunBackgroundAsync;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -26,6 +27,9 @@ public class TraxService extends Service implements BackgroundTaskInterface{
 	private static final String TAG = "TraxService";
 
     boolean service = false;
+
+    private SimpleDateFormat dateFormat;
+    String currentDate = "", savedDate = "";
 
     private Pref _pref;
     private ConnectionCheck _connectionCheck;
@@ -40,9 +44,6 @@ public class TraxService extends Service implements BackgroundTaskInterface{
 	public void onCreate() {
         super.onCreate();
 
-        Log.d(TAG, "onCreate");
-        //Toast.makeText(this, "My Service Created", Toast.LENGTH_LONG).show();
-
         _pref = new Pref(TraxService.this);
         _connectionCheck = new ConnectionCheck(TraxService.this);
 
@@ -52,30 +53,35 @@ public class TraxService extends Service implements BackgroundTaskInterface{
 	public void onDestroy() {
         super.onDestroy();
 
-		Log.d(TAG, "onDestroy");
         service = false;
-        //Toast.makeText(this, "My Service Stopped", Toast.LENGTH_LONG).show();
 
 	}
 	
 	@Override
 	public void onStart(Intent intent, int startid) {
 
-		Log.d(TAG, "onStart");
         service = true;
         update_location(return_location());
 	}
 
     private void update_location(Location location) {
 
-        SimpleDateFormat format = new SimpleDateFormat("HHmm",Locale.getDefault());
+        /*SimpleDateFormat format = new SimpleDateFormat("HHmm",Locale.getDefault());
         String currentTime = format.format(new Date());
         String endTime = "23:00".replace(":", "");
         boolean isEnd = Integer.valueOf(currentTime) > Integer.valueOf(endTime);
         Log.v("isEnd", String.valueOf(isEnd));
-        Log.v("service", String.valueOf(service));
+        Log.v("service", String.valueOf(service));*/
 
-        if (location != null  && service == true  && isEnd == false) {
+        //if (location != null  && service == true  && isEnd == false) {
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        String currentDate = dateFormat.format(calendar.getTime());
+        String savedDate = _pref.getDate();
+
+        if (location != null  && _pref.getLoginFlag().equals("3") && currentDate.equals(savedDate)) {
 
             if (_connectionCheck.isNetworkAvailable() && !String.valueOf(location.getLatitude()).equals("0.0") && !String.valueOf(location.getLongitude()).equals("0.0")) {
 
@@ -147,7 +153,7 @@ public class TraxService extends Service implements BackgroundTaskInterface{
         if(service == true) {
 
 
-            locationManager.requestLocationUpdates(provider, 20 * 1000, 0, locationListener); //PARAMETER: providername, interval time in milisecond, distance, location listener.
+            locationManager.requestLocationUpdates(provider, 10 * 1000, 0, locationListener); //PARAMETER: providername, interval time in milisecond, distance, location listener.
 
         }
         else{
@@ -155,10 +161,6 @@ public class TraxService extends Service implements BackgroundTaskInterface{
             locationManager.removeUpdates(locationListener); //Stops location updates.
 
         }
-
-
-        //
-        //--------------------------------------------------------------------
 
         return location;
     }

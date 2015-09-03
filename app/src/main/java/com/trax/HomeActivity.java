@@ -60,7 +60,7 @@ public class HomeActivity extends SlidingFragmentActivity implements BackgroundT
 		setContentView(R.layout.activity_home);
 
         //startService(new Intent(HomeActivity.this, TraxUpdateShipmentService.class));
-        startService(new Intent(HomeActivity.this, TraxRejectReasonService.class));
+        //startService(new Intent(HomeActivity.this, TraxRejectReasonService.class));
 
 		setBehindContentView(R.layout.left_menu);
 		slidingMenu = getSlidingMenu();

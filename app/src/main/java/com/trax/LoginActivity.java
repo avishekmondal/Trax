@@ -213,12 +213,12 @@ public class LoginActivity extends Activity implements BackgroundTaskInterface {
                             if(!_pref.getGCMRegId().equals("")){
 
                                 Log.v("GCM RegId: ", regId);
-
                                 sendGCMRegId();
                             }
                             else{
-                                regId = registerGCM();
+
                                 Log.v("GCM RegId: ", regId);
+                                regId = registerGCM();
 
                             }
 

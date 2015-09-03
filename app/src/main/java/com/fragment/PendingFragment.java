@@ -93,15 +93,7 @@ public class PendingFragment extends Fragment implements SwipeRefreshLayout.OnRe
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(PendingFragment.this);
 
-        pendingList = new ArrayList<ShipmentItem>();
-        intransitList = new ArrayList<ShipmentItem>();
-        completedList = new ArrayList<ShipmentItem>();
-        rejectedList = new ArrayList<ShipmentItem>();
 
-        Constant.pendingList = new ArrayList<ShipmentItem>();
-        Constant.intransitList = new ArrayList<ShipmentItem>();
-        Constant.completedList = new ArrayList<ShipmentItem>();
-        Constant.rejectedList = new ArrayList<ShipmentItem>();
 
     }
 
@@ -123,6 +115,16 @@ public class PendingFragment extends Fragment implements SwipeRefreshLayout.OnRe
     }
 
     private void getShipmentListFromDB(){
+
+        pendingList = new ArrayList<ShipmentItem>();
+        intransitList = new ArrayList<ShipmentItem>();
+        completedList = new ArrayList<ShipmentItem>();
+        rejectedList = new ArrayList<ShipmentItem>();
+
+        Constant.pendingList = new ArrayList<ShipmentItem>();
+        Constant.intransitList = new ArrayList<ShipmentItem>();
+        Constant.completedList = new ArrayList<ShipmentItem>();
+        Constant.rejectedList = new ArrayList<ShipmentItem>();
 
         db.open();
 

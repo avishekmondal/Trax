@@ -374,6 +374,8 @@ public class DashBoardFragment extends Fragment implements BackgroundTaskInterfa
 
         if (_connectionCheck.isNetworkAvailable()) {
 
+            getActivity().startService(new Intent(getActivity(), TraxRejectReasonService.class));
+
             String url = Constant.baseUrl  + "shipment";
 
             try {
@@ -704,6 +706,7 @@ public class DashBoardFragment extends Fragment implements BackgroundTaskInterfa
                     if (errCode.equalsIgnoreCase("0")) {
 
                         _pref.saveLoginFlag("3");
+                        getActivity().startService(new Intent(getActivity(), TraxService.class));
 
                         if(_connectionCheck.isGPSEnabled()) {
 
@@ -753,13 +756,11 @@ public class DashBoardFragment extends Fragment implements BackgroundTaskInterfa
 
                         _pref.saveLoginFlag("2");
                         getActivity().stopService(new Intent(getActivity(), TraxService.class));
+                        //getActivity().stopService(new Intent(getActivity(), TraxUpdateShipmentService.class));
+                        getActivity().stopService(new Intent(getActivity(), TraxRejectReasonService.class));
 
                         tvOnline.setText("GO ONLINE");
                         llGoOfflineMain.setVisibility(View.GONE);
-
-                        getActivity().stopService(new Intent(getActivity(), TraxService.class));
-                        //getActivity().stopService(new Intent(getActivity(), TraxUpdateShipmentService.class));
-                        getActivity().stopService(new Intent(getActivity(), TraxRejectReasonService.class));
 
                     } else {
 

@@ -121,7 +121,7 @@ public class IntransitFragment extends Fragment implements BackgroundTaskInterfa
 
         // Gets to GoogleMap from the MapView and does initialization stuff
         googleMap = mapView.getMap();
-        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        //googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         googleMap.setMyLocationEnabled(true);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.getUiSettings().setCompassEnabled(true);
@@ -183,9 +183,6 @@ public class IntransitFragment extends Fragment implements BackgroundTaskInterfa
         scrollViewParent = (ParallaxScrollView)rootView.findViewById(R.id.scrollViewParent);
         customView = (View)rootView.findViewById(R.id.customView);
 
-        intransitList = new ArrayList<ShipmentItem>();
-
-        Constant.intransitList = new ArrayList<ShipmentItem>();
     }
 
     private void onClick(){
@@ -388,6 +385,9 @@ public class IntransitFragment extends Fragment implements BackgroundTaskInterfa
     }
 
     private void getintransitListFromDB(){
+
+        intransitList = new ArrayList<ShipmentItem>();
+        Constant.intransitList = new ArrayList<ShipmentItem>();
 
         db.open();
 

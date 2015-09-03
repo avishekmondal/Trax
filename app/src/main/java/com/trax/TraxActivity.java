@@ -28,7 +28,7 @@ public class TraxActivity extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trax);
 
-        startService(new Intent(TraxActivity.this, TraxService.class));
+        //startService(new Intent(TraxActivity.this, TraxService.class));
 
         initialize();
 
