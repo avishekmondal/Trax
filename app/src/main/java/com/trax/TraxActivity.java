@@ -1,7 +1,6 @@
 package com.trax;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -10,8 +9,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-
 import com.adapter.TabFragmentAdapter;
 import com.astuetz.PagerSlidingTabStrip;
 
@@ -28,11 +25,11 @@ public class TraxActivity extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trax);
 
-        //startService(new Intent(TraxActivity.this, TraxService.class));
+        //startService(new Intent(TraxActivity.this, TraxService1.class));
 
         initialize();
 
-        if(getIntent().getStringExtra("startFrom").equalsIgnoreCase("DashBoardActivity")){
+        if(getIntent().getStringExtra("startFrom").equalsIgnoreCase("DashBoardFragment")){
             setViewPager(0);
         }
         else{

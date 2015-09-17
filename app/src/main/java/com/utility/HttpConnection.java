@@ -1,7 +1,6 @@
 package com.utility;
 
 import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +31,7 @@ public class HttpConnection {
             data = sb.toString();
             br.close();
         } catch (Exception e) {
-            Log.d("Exception while reading url", e.toString());
+            Log.d("Exception while reading", e.toString());
         } finally {
             iStream.close();
             urlConnection.disconnect();

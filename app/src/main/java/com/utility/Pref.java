@@ -135,4 +135,22 @@ public class Pref {
         return spref.getString("shipment_id", "");
     }
 
+    public void saveLatitude(String latitude) {
+        _editorSpref.putString("latitude", latitude);
+        _editorSpref.commit();
+    }
+
+    public String getLatitude() {
+        return spref.getString("latitude", "");
+    }
+
+    public void saveLongitude(String longitude) {
+        _editorSpref.putString("longitude", longitude);
+        _editorSpref.commit();
+    }
+
+    public String getLongitude() {
+        return spref.getString("longitude", "");
+    }
+
 }

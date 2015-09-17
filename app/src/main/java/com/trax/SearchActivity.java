@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-
 import com.adapter.SearchAdapter;
 import com.asynctask.RunBackgroundAsync;
 import com.bean.ShipmentItem;
@@ -22,16 +21,11 @@ import com.interfaces.BackgroundTaskInterface;
 import com.pnikosis.materialishprogress.ProgressWheel;
 import com.utility.ConnectionCheck;
 import com.utility.Constant;
-import com.utility.DBAdapter;
-import com.utility.GPSTrackerSecond;
 import com.utility.Pref;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**

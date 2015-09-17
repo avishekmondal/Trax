@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.interfaces.BackgroundTaskInterface;
 import com.utility.Constant;
@@ -16,7 +15,6 @@ import com.utility.ProgressGenerator;
 import com.asynctask.RunBackgroundAsync;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**

@@ -4,13 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.interfaces.BackgroundTaskInterface;
@@ -19,12 +16,9 @@ import com.utility.ConnectionCheck;
 import com.utility.Pref;
 import com.utility.ProgressGenerator;
 import com.asynctask.RunBackgroundAsync;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
-
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**

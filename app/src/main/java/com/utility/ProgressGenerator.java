@@ -1,7 +1,6 @@
 package com.utility;
 
 import com.dd.processbutton.ProcessButton;
-
 import android.content.Context;
 import android.os.Handler;
 import java.util.Random;

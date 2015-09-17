@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="com.example.permission.MAPS_RECEIVE"/>
@@ -81,17 +82,14 @@
             android:label="SearchActivity"
             android:screenOrientation="portrait" />
 
+
         <service
-            android:name=".TraxService"
+            android:name=".TraxService1"
             android:enabled="true" />
 
         <service
             android:name=".TraxRejectReasonService"
             android:enabled="true"/>
-
-        <service
-            android:name=".TraxUpdateShipmentService"
-            android:enabled="true" />
 
         <meta-data
             android:name="com.google.android.gms.version"

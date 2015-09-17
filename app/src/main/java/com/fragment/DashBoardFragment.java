@@ -1,21 +1,17 @@
 package com.fragment;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.asynctask.RunBackgroundAsync;
 import com.bean.ShipmentItem;
 import com.github.mikephil.charting.animation.Easing;
@@ -30,26 +26,21 @@ import com.trax.R;
 import com.trax.SearchActivity;
 import com.trax.TraxActivity;
 import com.trax.TraxRejectReasonService;
-import com.trax.TraxService;
-import com.trax.TraxUpdateShipmentService;
+import com.trax.TraxService1;
 import com.utility.ConnectionCheck;
 import com.utility.Constant;
 import com.utility.DBAdapter;
-import com.utility.GPSTrackerSecond;
 import com.utility.Pref;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by Avishek on 8/12/2015.
  */
-public class DashBoardFragment extends Fragment implements BackgroundTaskInterface {
+public class DashBoardFragment extends Fragment implements BackgroundTaskInterface{
 
     private View rootView;
 
@@ -75,7 +66,6 @@ public class DashBoardFragment extends Fragment implements BackgroundTaskInterfa
 
     private Pref _pref;
     private ConnectionCheck _connectionCheck;
-    private GPSTrackerSecond _GpsTrackerSecond;
     private DBAdapter db;
 
     @Override
@@ -122,9 +112,7 @@ public class DashBoardFragment extends Fragment implements BackgroundTaskInterfa
 
         _pref = new Pref(getActivity());
         _connectionCheck = new ConnectionCheck(getActivity());
-        _GpsTrackerSecond = new GPSTrackerSecond(getActivity());
         db = new DBAdapter(getActivity());
-
 
         llDashBoard = (LinearLayout) rootView.findViewById(R.id.llDashBoard);
         llGoOnline = (LinearLayout) rootView.findViewById(R.id.llGoOnline);
@@ -160,7 +148,7 @@ public class DashBoardFragment extends Fragment implements BackgroundTaskInterfa
                     if(_connectionCheck.isGPSEnabled()) {
 
                         Intent intent = new Intent(getActivity(), TraxActivity.class);
-                        intent.putExtra("startFrom", "DashBoardActivity");
+                        intent.putExtra("startFrom", "DashBoardFragment");
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     }
@@ -263,13 +251,12 @@ public class DashBoardFragment extends Fragment implements BackgroundTaskInterfa
             @Override
             public void onClick(View v) {
 
-                if(_pref.getLoginFlag().equals("3")){
+                if (_pref.getLoginFlag().equals("3")) {
 
                     startActivity(new Intent(getActivity(), SearchActivity.class));
                     getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
-                }
-                else{
+                } else {
 
                     new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Oops...")
@@ -410,22 +397,20 @@ public class DashBoardFragment extends Fragment implements BackgroundTaskInterfa
 
     private void getStarted(){
 
-        _GpsTrackerSecond = new GPSTrackerSecond(getActivity());
-
         if (_connectionCheck.isNetworkAvailable()) {
 
             String url = Constant.baseUrl  + "updateshipmentstatus";
 
             try {
 
-                if(!String.valueOf(_GpsTrackerSecond.getLatitude()).equals("0.0") && !String.valueOf(_GpsTrackerSecond.getLongitude()).equals("0.0")){
+                if(!_pref.getLatitude().equals("0.0") && !_pref.getLongitude().equals("0.0")){
 
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("agentId", _pref.getAgentId());
                     jsonObject.put("accessToken", _pref.getAccessToken());
                     jsonObject.put("shipmentId", _pref.getIntransitShipmentId());
-                    jsonObject.put("latValue", String.valueOf(_GpsTrackerSecond.getLatitude()));
-                    jsonObject.put("longValue", String.valueOf(_GpsTrackerSecond.getLongitude()));
+                    jsonObject.put("latValue", _pref.getLatitude());
+                    jsonObject.put("longValue", _pref.getLongitude());
                     jsonObject.put("action", "checkin");
                     jsonObject.put("capturedData", "");
 
@@ -466,22 +451,20 @@ public class DashBoardFragment extends Fragment implements BackgroundTaskInterfa
 
     private void getStopped(){
 
-        _GpsTrackerSecond = new GPSTrackerSecond(getActivity());
-
         if (_connectionCheck.isNetworkAvailable()) {
 
             String url = Constant.baseUrl  + "updateshipmentstatus";
 
             try {
 
-                if(!String.valueOf(_GpsTrackerSecond.getLatitude()).equals("0.0") && !String.valueOf(_GpsTrackerSecond.getLongitude()).equals("0.0")){
+                if(!_pref.getLatitude().equals("0.0") && !_pref.getLongitude().equals("0.0")){
 
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("agentId", _pref.getAgentId());
                     jsonObject.put("accessToken", _pref.getAccessToken());
                     jsonObject.put("shipmentId", _pref.getIntransitShipmentId());
-                    jsonObject.put("latValue", String.valueOf(_GpsTrackerSecond.getLatitude()));
-                    jsonObject.put("longValue", String.valueOf(_GpsTrackerSecond.getLongitude()));
+                    jsonObject.put("latValue", _pref.getLatitude());
+                    jsonObject.put("longValue", _pref.getLongitude());
                     jsonObject.put("action", "checkout");
                     jsonObject.put("capturedData", "");
 
@@ -706,12 +689,11 @@ public class DashBoardFragment extends Fragment implements BackgroundTaskInterfa
                     if (errCode.equalsIgnoreCase("0")) {
 
                         _pref.saveLoginFlag("3");
-                        getActivity().startService(new Intent(getActivity(), TraxService.class));
 
                         if(_connectionCheck.isGPSEnabled()) {
 
                             Intent intent = new Intent(getActivity(), TraxActivity.class);
-                            intent.putExtra("startFrom", "DashBoardActivity");
+                            intent.putExtra("startFrom", "DashBoardFragment");
                             startActivity(intent);
                             getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         }
@@ -755,8 +737,7 @@ public class DashBoardFragment extends Fragment implements BackgroundTaskInterfa
                     if (errCode.equalsIgnoreCase("0")) {
 
                         _pref.saveLoginFlag("2");
-                        getActivity().stopService(new Intent(getActivity(), TraxService.class));
-                        //getActivity().stopService(new Intent(getActivity(), TraxUpdateShipmentService.class));
+                        getActivity().stopService(new Intent(getActivity(), TraxService1.class));
                         getActivity().stopService(new Intent(getActivity(), TraxRejectReasonService.class));
 
                         tvOnline.setText("GO ONLINE");
@@ -787,5 +768,4 @@ public class DashBoardFragment extends Fragment implements BackgroundTaskInterfa
         }
 
     }
-
 }

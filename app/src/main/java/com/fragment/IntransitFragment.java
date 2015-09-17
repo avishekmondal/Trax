@@ -31,8 +31,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -41,7 +39,6 @@ import com.nirhart.parallaxscroll.views.ParallaxScrollView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 import com.trax.TraxActivity;
 import com.utility.DBAdapter;
-import com.utility.GPSTrackerSecond;
 import com.trax.R;
 import com.utility.Constant;
 import com.utility.HttpConnection;
@@ -52,7 +49,6 @@ import com.asynctask.RunBackgroundAsync;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -91,7 +87,6 @@ public class IntransitFragment extends Fragment implements BackgroundTaskInterfa
 
     private Pref _pref;
     private ConnectionCheck _connectionCheck;
-    private GPSTrackerSecond _GpsTrackerSecond;
     private DBAdapter db;
 
     Spinner dialog_spinRejectReason;
@@ -160,7 +155,6 @@ public class IntransitFragment extends Fragment implements BackgroundTaskInterfa
 
         _pref = new Pref(getActivity());
         _connectionCheck = new ConnectionCheck(getActivity());
-        _GpsTrackerSecond = new GPSTrackerSecond(getActivity());
         db = new DBAdapter(getActivity());
 
         llIntransit = (LinearLayout) rootView.findViewById(R.id.llIntransit);
@@ -343,7 +337,7 @@ public class IntransitFragment extends Fragment implements BackgroundTaskInterfa
                 String number = tvContactNo.getText().toString();
                 Log.v("number", number);
 
-                if(number.length() > 0){
+                if (number.length() > 0) {
 
                     Intent dial = new Intent();
                     dial.setAction("android.intent.action.DIAL");
@@ -432,15 +426,15 @@ public class IntransitFragment extends Fragment implements BackgroundTaskInterfa
                 double lat = Double.parseDouble(intransitList.get(0).getPickupLatValue());
                 double lng = Double.parseDouble(intransitList.get(0).getPickupLongValue());
 
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(_GpsTrackerSecond.getLatitude(), _GpsTrackerSecond.getLongitude()) , 8));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(_pref.getLatitude()), Double.parseDouble(_pref.getLongitude())) , 8));
                 googleMap.addMarker(new MarkerOptions()
                         .icon(BitmapDescriptorFactory
                                 .defaultMarker(BitmapDescriptorFactory.HUE_RED))
                         .position(new LatLng(lat, lng)));
 
-                if(_connectionCheck.isNetworkAvailable() && !String.valueOf(_GpsTrackerSecond.getLatitude()).equals("0.0") && !String.valueOf(_GpsTrackerSecond.getLongitude()).equals("0.0")) {
+                if(_connectionCheck.isNetworkAvailable() && !_pref.getLatitude().equals("0.0") && !_pref.getLongitude().equals("0.0")) {
 
-                    String source_pos = String.valueOf(_GpsTrackerSecond.getLatitude()) + "," + _GpsTrackerSecond.getLongitude();
+                    String source_pos = _pref.getLatitude() + "," + _pref.getLongitude();
                     String destination_pos = String.valueOf(lat) + "," + String.valueOf(lng);
                     String url = getMapsApiDirectionsUrl(source_pos, destination_pos);
                     ReadTask downloadTask = new ReadTask();
@@ -452,7 +446,7 @@ public class IntransitFragment extends Fragment implements BackgroundTaskInterfa
 
             else{
 
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(_GpsTrackerSecond.getLatitude(), _GpsTrackerSecond.getLongitude()), 8));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(_pref.getLatitude()), Double.parseDouble(_pref.getLongitude())), 8));
             }
 
         }
@@ -471,15 +465,15 @@ public class IntransitFragment extends Fragment implements BackgroundTaskInterfa
                 double lat = Double.parseDouble(intransitList.get(0).getDeliveryLatValue());
                 double lng = Double.parseDouble(intransitList.get(0).getDeliveryLongValue());
 
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(_GpsTrackerSecond.getLatitude(), _GpsTrackerSecond.getLongitude()) , 8));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(_pref.getLatitude()), Double.parseDouble(_pref.getLongitude())) , 8));
                 googleMap.addMarker(new MarkerOptions()
                         .icon(BitmapDescriptorFactory
                                 .defaultMarker(BitmapDescriptorFactory.HUE_RED))
                         .position(new LatLng(lat, lng)));
 
-                if(_connectionCheck.isNetworkAvailable() && !String.valueOf(_GpsTrackerSecond.getLatitude()).equals("0.0") && !String.valueOf(_GpsTrackerSecond.getLongitude()).equals("0.0")) {
+                if(_connectionCheck.isNetworkAvailable() && !_pref.getLatitude().equals("0.0") && !_pref.getLongitude().equals("0.0")) {
 
-                    String source_pos = String.valueOf(_GpsTrackerSecond.getLatitude())+","+_GpsTrackerSecond.getLongitude();
+                    String source_pos = _pref.getLatitude()+","+_pref.getLongitude();
                     String destination_pos = String.valueOf(lat)+","+String.valueOf(lng);
                     String url = getMapsApiDirectionsUrl(source_pos, destination_pos);
                     ReadTask downloadTask = new ReadTask();
@@ -490,7 +484,7 @@ public class IntransitFragment extends Fragment implements BackgroundTaskInterfa
             }
             else{
 
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(_GpsTrackerSecond.getLatitude(), _GpsTrackerSecond.getLongitude()), 8));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(_pref.getLatitude()), Double.parseDouble(_pref.getLongitude())), 8));
             }
 
         }
@@ -747,7 +741,7 @@ public class IntransitFragment extends Fragment implements BackgroundTaskInterfa
         final LinearLayout dialog_llCancel = (LinearLayout)dialog.findViewById(R.id.llCancel);
         final LinearLayout dialog_llSubmit = (LinearLayout)dialog.findViewById(R.id.llSubmit);
 
-        dialog_chkCashReceived.setText("Amount Received Rs. " +  intransitList.get(0).getShipmentTotalAmount());
+        dialog_chkCashReceived.setText("Amount Received Rs. " + intransitList.get(0).getShipmentTotalAmount());
 
         dialog_llSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -934,7 +928,6 @@ public class IntransitFragment extends Fragment implements BackgroundTaskInterfa
 
     }
 
-
     public class RejectedReasonAsync extends AsyncTask<String, Long, String> {
 
         @Override
@@ -1022,9 +1015,12 @@ public class IntransitFragment extends Fragment implements BackgroundTaskInterfa
 
     private void getintransitList(){
 
-        db.open();
-        db.deleteRecord(Constant.intransitList.get(0).getShipmentId());
-        db.close();
+        if(Constant.intransitList.size() >= 1){
+
+            db.open();
+            db.deleteRecord(Constant.intransitList.get(0).getShipmentId());
+            db.close();
+        }
 
         if (_connectionCheck.isNetworkAvailable()) {
 
@@ -1063,22 +1059,20 @@ public class IntransitFragment extends Fragment implements BackgroundTaskInterfa
 
     private void updateShipmentStatus(String updateStatusAction, String capturedData){
 
-        _GpsTrackerSecond = new GPSTrackerSecond(getActivity());
-
         if (_connectionCheck.isNetworkAvailable()) {
 
             String url = Constant.baseUrl  + "updateshipmentstatus";
 
             try {
 
-                if(!String.valueOf(_GpsTrackerSecond.getLatitude()).equals("0.0") && !String.valueOf(_GpsTrackerSecond.getLongitude()).equals("0.0")){
+                if(!_pref.getLatitude().equals("0.0") && !_pref.getLongitude().equals("0.0")){
 
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("agentId", _pref.getAgentId());
                     jsonObject.put("accessToken", _pref.getAccessToken());
                     jsonObject.put("shipmentId", _pref.getIntransitShipmentId());
-                    jsonObject.put("latValue", String.valueOf(_GpsTrackerSecond.getLatitude()));
-                    jsonObject.put("longValue", String.valueOf(_GpsTrackerSecond.getLongitude()));
+                    jsonObject.put("latValue", _pref.getLatitude());
+                    jsonObject.put("longValue", _pref.getLongitude());
                     jsonObject.put("action", updateStatusAction);
                     jsonObject.put("capturedData", capturedData);
 
@@ -1250,7 +1244,7 @@ public class IntransitFragment extends Fragment implements BackgroundTaskInterfa
                             updateStatusAction = "";
 
                             Intent intent = new Intent(getActivity(), TraxActivity.class);
-                            intent.putExtra("startFrom", "DashBoardActivity");
+                            intent.putExtra("startFrom", "DashBoardFragment");
                             startActivity(intent);
                             getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                             getActivity().finish();
@@ -1325,12 +1319,13 @@ public class IntransitFragment extends Fragment implements BackgroundTaskInterfa
     private class ParserTask extends
             AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
 
+        List<List<HashMap<String, String>>> routes = null;
+
         @Override
         protected List<List<HashMap<String, String>>> doInBackground(
                 String... jsonData) {
 
             JSONObject jObject;
-            List<List<HashMap<String, String>>> routes = null;
 
             try {
                 jObject = new JSONObject(jsonData[0]);

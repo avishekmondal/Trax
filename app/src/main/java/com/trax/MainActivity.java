@@ -18,7 +18,6 @@ import com.utility.Constant;
 import com.utility.Pref;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 
 public class MainActivity extends Activity implements BackgroundTaskInterface{

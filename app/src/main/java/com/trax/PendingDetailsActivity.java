@@ -17,7 +17,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.bean.ShipmentItem;
@@ -26,15 +25,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.interfaces.BackgroundTaskInterface;
 import com.nirhart.parallaxscroll.views.ParallaxScrollView;
 import com.utility.Constant;
 import com.utility.DBAdapter;
-import com.utility.GPSTrackerSecond;
 import com.utility.ConnectionCheck;
 import com.utility.Pref;
 import com.asynctask.RunBackgroundAsync;
@@ -66,7 +62,6 @@ public class PendingDetailsActivity extends ActionBarActivity implements Backgro
 
     private Pref _pref;
     private ConnectionCheck _connectionCheck;
-    private GPSTrackerSecond _GpsTrackerSecond;
     private DBAdapter db;
 
     String startFrom = "";
@@ -141,7 +136,6 @@ public class PendingDetailsActivity extends ActionBarActivity implements Backgro
 
         _pref = new Pref(PendingDetailsActivity.this);
         _connectionCheck = new ConnectionCheck(PendingDetailsActivity.this);
-        _GpsTrackerSecond = new GPSTrackerSecond(PendingDetailsActivity.this);
         db = new DBAdapter(PendingDetailsActivity.this);
 
         tvDropType = (TextView) findViewById(R.id.tvDropType);
@@ -206,7 +200,7 @@ public class PendingDetailsActivity extends ActionBarActivity implements Backgro
             }
             else{
 
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(_GpsTrackerSecond.getLatitude(), _GpsTrackerSecond.getLongitude()) , 8));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(_pref.getLatitude()), Double.parseDouble(_pref.getLongitude())) , 8));
             }
 
         }
@@ -236,7 +230,7 @@ public class PendingDetailsActivity extends ActionBarActivity implements Backgro
             }
             else{
 
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(_GpsTrackerSecond.getLatitude(), _GpsTrackerSecond.getLongitude()) , 8));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(_pref.getLatitude()), Double.parseDouble(_pref.getLongitude())) , 8));
             }
 
         }
@@ -396,14 +390,14 @@ public class PendingDetailsActivity extends ActionBarActivity implements Backgro
 
             try {
 
-                if(!String.valueOf(_GpsTrackerSecond.getLatitude()).equals("0.0") && !String.valueOf(_GpsTrackerSecond.getLongitude()).equals("0.0")){
+                if(!_pref.getLatitude().equals("0.0") && !_pref.getLongitude().equals("0.0")){
 
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("agentId", _pref.getAgentId());
                     jsonObject.put("accessToken", _pref.getAccessToken());
                     jsonObject.put("shipmentId", pendingList.get(position).getShipmentId());
-                    jsonObject.put("latValue", String.valueOf(_GpsTrackerSecond.getLatitude()));
-                    jsonObject.put("longValue", String.valueOf(_GpsTrackerSecond.getLongitude()));
+                    jsonObject.put("latValue", _pref.getLatitude());
+                    jsonObject.put("longValue", _pref.getLongitude());
                     jsonObject.put("action", "start");
                     jsonObject.put("capturedData", "");
 

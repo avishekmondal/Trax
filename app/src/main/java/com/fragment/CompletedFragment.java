@@ -14,7 +14,6 @@ import com.adapter.CompletedAdapter;
 import com.bean.ShipmentItem;
 import com.interfaces.BackgroundTaskInterface;
 import com.trax.CompletedDetailsActivity;
-import com.trax.PendingDetailsActivity;
 import com.trax.R;
 import com.trax.TraxRejectReasonService;
 import com.utility.Constant;

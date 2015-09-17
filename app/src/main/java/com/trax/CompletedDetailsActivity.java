@@ -28,7 +28,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.nirhart.parallaxscroll.views.ParallaxScrollView;
 import com.utility.Constant;
-import com.utility.GPSTrackerSecond;
+import com.utility.Pref;
+
 import java.util.ArrayList;
 
 /**
@@ -51,7 +52,7 @@ public class CompletedDetailsActivity extends ActionBarActivity{
 
     private ActionBar actionBar;
 
-    private GPSTrackerSecond _GpsTrackerSecond;
+    private Pref _pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +122,7 @@ public class CompletedDetailsActivity extends ActionBarActivity{
 
     private void initialize(){
 
-        _GpsTrackerSecond = new GPSTrackerSecond(CompletedDetailsActivity.this);
+        _pref = new Pref(CompletedDetailsActivity.this);
 
         tvDropType = (TextView) findViewById(R.id.tvDropType);
         tvShipmentType = (TextView) findViewById(R.id.tvShipmentType);
@@ -181,7 +182,7 @@ public class CompletedDetailsActivity extends ActionBarActivity{
             }
             else{
 
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(_GpsTrackerSecond.getLatitude(), _GpsTrackerSecond.getLongitude()) , 10));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(_pref.getLatitude()), Double.parseDouble(_pref.getLongitude())) , 10));
             }
 
 
@@ -212,7 +213,7 @@ public class CompletedDetailsActivity extends ActionBarActivity{
             }
             else{
 
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(_GpsTrackerSecond.getLatitude(), _GpsTrackerSecond.getLongitude()) , 10));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(_pref.getLatitude()), Double.parseDouble(_pref.getLongitude())) , 10));
             }
 
         }

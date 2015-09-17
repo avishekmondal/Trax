@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.asynctask.RunBackgroundAsync;
 import com.fragment.DashBoardFragment;
 import com.interfaces.BackgroundTaskInterface;
@@ -28,12 +27,9 @@ import com.utility.CircularImageView;
 import com.utility.ConnectionCheck;
 import com.utility.Constant;
 import com.utility.DBAdapter;
-import com.utility.GPSTrackerSecond;
 import com.utility.Pref;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class HomeActivity extends SlidingFragmentActivity implements BackgroundTaskInterface{
@@ -59,8 +55,7 @@ public class HomeActivity extends SlidingFragmentActivity implements BackgroundT
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_home);
 
-        //startService(new Intent(HomeActivity.this, TraxUpdateShipmentService.class));
-        //startService(new Intent(HomeActivity.this, TraxRejectReasonService.class));
+        startService(new Intent(HomeActivity.this, TraxService1.class));
 
 		setBehindContentView(R.layout.left_menu);
 		slidingMenu = getSlidingMenu();
@@ -83,6 +78,10 @@ public class HomeActivity extends SlidingFragmentActivity implements BackgroundT
     public void onBackPressed() {
         //super.onBackPressed();
         if (back_pressed + 3000 > System.currentTimeMillis()) {
+            if(!_pref.getLoginFlag().equals("3")){
+                stopService(new Intent(HomeActivity.this, TraxService1.class));
+                stopService(new Intent(HomeActivity.this, TraxRejectReasonService.class));
+            }
             android.os.Process.killProcess(android.os.Process.myPid());
             finish();
 
@@ -251,10 +250,6 @@ public class HomeActivity extends SlidingFragmentActivity implements BackgroundT
                     db.open();
                     db.deleteAllRecord();
                     db.close();
-
-                    //stopService(new Intent(HomeActivity.this, TraxService.class));
-                    //stopService(new Intent(HomeActivity.this, TraxUpdateShipmentService.class));
-                    //stopService(new Intent(HomeActivity.this, TraxRejectReasonService.class));
 
                     Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

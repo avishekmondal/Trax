@@ -19,9 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class TraxService extends Service implements BackgroundTaskInterface{
 	private static final String TAG = "TraxService";
@@ -66,14 +64,8 @@ public class TraxService extends Service implements BackgroundTaskInterface{
 
     private void update_location(Location location) {
 
-        /*SimpleDateFormat format = new SimpleDateFormat("HHmm",Locale.getDefault());
-        String currentTime = format.format(new Date());
-        String endTime = "23:00".replace(":", "");
-        boolean isEnd = Integer.valueOf(currentTime) > Integer.valueOf(endTime);
-        Log.v("isEnd", String.valueOf(isEnd));
-        Log.v("service", String.valueOf(service));*/
-
-        //if (location != null  && service == true  && isEnd == false) {
+        _pref.saveLatitude(String.valueOf(location.getLatitude()));
+        _pref.saveLongitude(String.valueOf(location.getLongitude()));
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -93,8 +85,8 @@ public class TraxService extends Service implements BackgroundTaskInterface{
                     jsonObject.put("agentId", _pref.getAgentId());
                     jsonObject.put("accessToken", _pref.getAccessToken());
                     jsonObject.put("shipmentId", _pref.getIntransitShipmentId());
-                    jsonObject.put("latValue", String.valueOf(location.getLatitude()));
-                    jsonObject.put("longValue", String.valueOf(location.getLongitude()));
+                    jsonObject.put("latValue", _pref.getLatitude());
+                    jsonObject.put("longValue", _pref.getLongitude());
 
                     JSONObject data = new JSONObject();
                     data.put("data", jsonObject);
@@ -120,8 +112,7 @@ public class TraxService extends Service implements BackgroundTaskInterface{
     private Location return_location() {
 
         //Access to the location-based services is handled by the Location Manager system Service. To access the Location Manager, request an instance of the LOCATION_SERVICE using the getSystemService method.
-        String context = Context.LOCATION_SERVICE;
-        LocationManager locationManager = (LocationManager)getSystemService(context);
+        LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
         //The LocationManager class includes static string constants that return the provider name for the two most common Location Providers:
         //String provider = LocationManager.GPS_PROVIDER;
@@ -129,12 +120,12 @@ public class TraxService extends Service implements BackgroundTaskInterface{
 
         //Instead of using GPS_PROVIDER or NETWORK_PROVIDER directly, Criteria class to dictate the requirements of a provider in terms of accuracy (fine or coarse), power use (low, medium, high), financial cost, and the ability to return values for altitude, speed, and bearing.
         Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
-        criteria.setAltitudeRequired(false);
-        criteria.setBearingRequired(false);
-        criteria.setSpeedRequired(false);
-        criteria.setCostAllowed(false);
+        criteria.setPowerRequirement(Criteria.POWER_LOW); // Chose your desired power consumption level.
+        criteria.setAccuracy(Criteria.ACCURACY_FINE); // Choose your accuracy requirement.
+        criteria.setSpeedRequired(true); // Chose if speed for first location fix is required.
+        criteria.setAltitudeRequired(false); // Choose if you use altitude.
+        criteria.setBearingRequired(false); // Choose if you use bearing.
+        criteria.setCostAllowed(false); // Choose if this provider can waste money :-)
 
         List<String> matchingProviders = locationManager.getProviders(criteria, false);  //getProviders() returns all the possible matches. Boolean lets you restrict the result to a currently enabled provider.If no provider is found, null is returned.
 
@@ -153,7 +144,7 @@ public class TraxService extends Service implements BackgroundTaskInterface{
         if(service == true) {
 
 
-            locationManager.requestLocationUpdates(provider, 10 * 1000, 0, locationListener); //PARAMETER: providername, interval time in milisecond, distance, location listener.
+            locationManager.requestLocationUpdates(provider, 1000 * 6  , 10, locationListener); //PARAMETER: providername, interval time in milisecond, distance, location listener.
 
         }
         else{
@@ -215,4 +206,5 @@ public class TraxService extends Service implements BackgroundTaskInterface{
         }
 
     }
+
 }

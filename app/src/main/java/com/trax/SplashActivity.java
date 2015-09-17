@@ -20,7 +20,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class SplashActivity extends Activity implements BackgroundTaskInterface {
@@ -230,7 +229,14 @@ public class SplashActivity extends Activity implements BackgroundTaskInterface 
 
                         new SweetAlertDialog(SplashActivity.this, SweetAlertDialog.ERROR_TYPE)
                                 .setTitleText("Oops...")
-                                .setContentText("Install latest apk and Try again")
+                                .setContentText("Please install latest APK and Try again")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                                        finish();
+                                    }
+                                })
                                 .show();
 
                     }
@@ -261,5 +267,4 @@ public class SplashActivity extends Activity implements BackgroundTaskInterface 
         }
 
     }
-
 }
