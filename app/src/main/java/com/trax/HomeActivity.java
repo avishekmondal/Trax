@@ -78,7 +78,7 @@ public class HomeActivity extends SlidingFragmentActivity implements BackgroundT
     public void onBackPressed() {
         //super.onBackPressed();
         if (back_pressed + 3000 > System.currentTimeMillis()) {
-            if(!_pref.getLoginFlag().equals("3")){
+            if(_pref.getLoginFlag().equals("2")){
                 stopService(new Intent(HomeActivity.this, TraxService1.class));
                 stopService(new Intent(HomeActivity.this, TraxRejectReasonService.class));
             }

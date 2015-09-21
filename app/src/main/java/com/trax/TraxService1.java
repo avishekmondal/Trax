@@ -22,7 +22,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class TraxService1 extends Service implements BackgroundTaskInterface, LocationProvider.LocationCallback{
-    private static final String TAG = "TraxService";
+    private static final String TAG = "TraxService1";
 
     boolean service = false;
 
@@ -160,15 +160,6 @@ public class TraxService1 extends Service implements BackgroundTaskInterface, Lo
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-        }
-
-        else{
-
-            /*new SweetAlertDialog(TraxService.this, SweetAlertDialog.ERROR_TYPE)
-                    .setTitleText("Oops...")
-                    .setContentText("Something going wrong!! Please Try Again")
-                    .show();*/
-
         }
 
     }
